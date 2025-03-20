@@ -1,37 +1,40 @@
-# Arduino Servo Motor and LED Control Project
+# Arduino 伺服馬達與LED控制專案
 
-This project demonstrates how to control a servo motor and two LEDs using an Arduino board.
+本專案展示如何使用Arduino控制伺服馬達和兩顆LED。
 
-## Version
+## 版本
 v1.0.0
 
-## Hardware Requirements
-- Arduino board (e.g., Arduino Uno)
-- 1x Servo Motor
-- 2x LEDs
-- 2x 220Ω resistors (for LEDs)
-- Jumper wires
-- Breadboard
+## 最後更新
+2024-03-21
 
-## Pin Connections
-- Servo Motor: Digital Pin 9
-- LED 1: Digital Pin 7
-- LED 2: Digital Pin 8
+## 硬體需求
+- Arduino開發板（例如：Arduino Uno）
+- 1個伺服馬達
+- 2顆LED
+- 2個220Ω電阻（用於LED限流）
+- 跳線
+- 麵包板
 
-## Features
-- Servo motor control with angle adjustment
-- Two independent LED control
-- Serial communication for debugging
+## 接線方式
+- 伺服馬達：數位腳位9
+- LED 1：數位腳位7
+- LED 2：數位腳位8
 
-## Usage
-1. Connect the hardware according to the pin connections
-2. Upload the code to your Arduino board
-3. Open the Serial Monitor to see the debug messages
-4. Use the Serial Monitor to control the servo motor and LEDs
+## 功能特點
+- 伺服馬達角度控制
+- 兩顆LED獨立控制
+- 序列通訊除錯功能
 
-## Control Commands
-- Send '1' to turn on LED 1
-- Send '0' to turn off LED 1
-- Send '3' to turn on LED 2
-- Send '2' to turn off LED 2
-- Send a number between 0-180 to control the servo motor angle 
+## 使用方式
+1. 按照接線方式連接硬體
+2. 將程式碼上傳至Arduino開發板
+3. 開啟序列監視器查看除錯訊息
+4. 使用序列監視器控制伺服馬達和LED
+
+## 控制指令
+- 輸入 '1' 開啟第一顆LED
+- 輸入 '0' 關閉第一顆LED
+- 輸入 '3' 開啟第二顆LED
+- 輸入 '2' 關閉第二顆LED
+- 輸入 0-180 的數字來控制伺服馬達角度 
