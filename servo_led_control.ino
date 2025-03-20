@@ -4,6 +4,7 @@
 const int SERVO_PIN = 9;    // 伺服馬達腳位
 const int LED1_PIN = 7;     // 第一顆LED腳位
 const int LED2_PIN = 8;     // 第二顆LED腳位
+const int POT_PIN = A0;     // 可調式電阻腳位
 
 // 創建伺服馬達物件
 Servo myservo;
@@ -33,11 +34,19 @@ void setup() {
   Serial.println("0: LED1 OFF");
   Serial.println("3: LED2 ON");
   Serial.println("2: LED2 OFF");
-  Serial.println("0-180: Set servo angle");
 }
 
 void loop() {
-  // 檢查是否有可讀取的數據
+  // 讀取可調式電阻的值（0-1023）
+  int potValue = analogRead(POT_PIN);
+  
+  // 將可調式電阻的值映射到伺服馬達角度（0-180）
+  int servoAngle = map(potValue, 0, 1023, 0, 180);
+  
+  // 控制伺服馬達
+  myservo.write(servoAngle);
+  
+  // 檢查是否有LED控制指令
   if (Serial.available() > 0) {
     char command = Serial.read();
     
@@ -61,35 +70,14 @@ void loop() {
         digitalWrite(LED2_PIN, LOW);
         Serial.println("LED2 OFF");
         break;
-        
-      default:
-        // 檢查是否為數字（用於控制伺服馬達）
-        if (command >= '0' && command <= '9') {
-          // 讀取完整的數字
-          String numberString = "";
-          numberString += command;
-          while (Serial.available() > 0) {
-            char nextChar = Serial.read();
-            if (nextChar >= '0' && nextChar <= '9') {
-              numberString += nextChar;
-            } else {
-              break;
-            }
-          }
-          
-          // 轉換為整數
-          int angle = numberString.toInt();
-          
-          // 確保角度在有效範圍內
-          if (angle >= 0 && angle <= 180) {
-            myservo.write(angle);
-            Serial.print("Servo angle set to: ");
-            Serial.println(angle);
-          } else {
-            Serial.println("Invalid angle! Please enter a value between 0 and 180.");
-          }
-        }
-        break;
     }
+  }
+  
+  // 每100毫秒輸出一次當前角度
+  static unsigned long lastPrint = 0;
+  if (millis() - lastPrint > 100) {
+    Serial.print("Servo Angle: ");
+    Serial.println(servoAngle);
+    lastPrint = millis();
   }
 } 
