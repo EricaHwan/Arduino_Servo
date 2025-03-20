@@ -9,6 +9,9 @@ const int POT_PIN = A0;     // 可調式電阻腳位
 // 創建伺服馬達物件
 Servo myservo;
 
+// 儲存上一次的可調式電阻值
+int lastPotValue = 0;
+
 void setup() {
   // 設定LED腳位為輸出
   pinMode(LED1_PIN, OUTPUT);
@@ -23,6 +26,9 @@ void setup() {
   
   // 初始化伺服馬達角度為90度
   myservo.write(90);
+  
+  // 讀取初始可調式電阻值
+  lastPotValue = analogRead(POT_PIN);
 }
 
 void loop() {
@@ -35,10 +41,19 @@ void loop() {
   // 控制伺服馬達
   myservo.write(servoAngle);
   
-  // 將可調式電阻的值映射到LED亮度（0-255）
-  int ledBrightness = map(potValue, 0, 1023, 0, 255);
+  // 判斷轉動方向並控制LED
+  if (potValue > lastPotValue + 10) {  // 向右轉動
+    digitalWrite(LED1_PIN, HIGH);
+    digitalWrite(LED2_PIN, LOW);
+  }
+  else if (potValue < lastPotValue - 10) {  // 向左轉動
+    digitalWrite(LED1_PIN, LOW);
+    digitalWrite(LED2_PIN, HIGH);
+  }
   
-  // 控制兩顆LED的亮度
-  analogWrite(LED1_PIN, ledBrightness);
-  analogWrite(LED2_PIN, ledBrightness);
+  // 更新上一次的可調式電阻值
+  lastPotValue = potValue;
+  
+  // 小延遲以避免讀取過於頻繁
+  delay(50);
 } 
